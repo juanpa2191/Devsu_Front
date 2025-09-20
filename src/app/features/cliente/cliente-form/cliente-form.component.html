@@ -1,0 +1,164 @@
+<div class="cliente-form-container">
+  <h2>{{ isEditMode ? 'Editar Cliente' : 'Crear Cliente' }}</h2>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="successMessage" class="success-message">
+    {{ successMessage }}
+  </div>
+
+  <form [formGroup]="clienteForm" (ngSubmit)="onSubmit()" *ngIf="!loading">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="clienteId">ID Cliente:</label>
+        <input
+          type="text"
+          id="clienteId"
+          formControlName="clienteId"
+          placeholder="CLI001"
+          class="form-control"
+          [class.error]="clienteForm.get('clienteId')?.invalid && clienteForm.get('clienteId')?.touched">
+        <div *ngIf="clienteForm.get('clienteId')?.invalid && clienteForm.get('clienteId')?.touched" class="error-text">
+          {{ getErrorMessage('clienteId') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="nombre">Nombre:</label>
+        <input
+          type="text"
+          id="nombre"
+          formControlName="nombre"
+          placeholder="Nombre completo"
+          class="form-control"
+          [class.error]="clienteForm.get('nombre')?.invalid && clienteForm.get('nombre')?.touched">
+        <div *ngIf="clienteForm.get('nombre')?.invalid && clienteForm.get('nombre')?.touched" class="error-text">
+          {{ getErrorMessage('nombre') }}
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="genero">Género:</label>
+        <select
+          id="genero"
+          formControlName="genero"
+          class="form-control"
+          [class.error]="clienteForm.get('genero')?.invalid && clienteForm.get('genero')?.touched">
+          <option *ngFor="let genero of generos" [value]="genero.value">{{ genero.label }}</option>
+        </select>
+        <div *ngIf="clienteForm.get('genero')?.invalid && clienteForm.get('genero')?.touched" class="error-text">
+          {{ getErrorMessage('genero') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="edad">Edad:</label>
+        <input
+          type="number"
+          id="edad"
+          formControlName="edad"
+          placeholder="30"
+          class="form-control"
+          [class.error]="clienteForm.get('edad')?.invalid && clienteForm.get('edad')?.touched">
+        <div *ngIf="clienteForm.get('edad')?.invalid && clienteForm.get('edad')?.touched" class="error-text">
+          {{ getErrorMessage('edad') }}
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="tipoIdentificacion">Tipo Identificación:</label>
+        <select
+          id="tipoIdentificacion"
+          formControlName="tipoIdentificacion"
+          class="form-control"
+          [class.error]="clienteForm.get('tipoIdentificacion')?.invalid && clienteForm.get('tipoIdentificacion')?.touched">
+          <option *ngFor="let tipo of tiposIdentificacion" [value]="tipo.value">{{ tipo.label }}</option>
+        </select>
+        <div *ngIf="clienteForm.get('tipoIdentificacion')?.invalid && clienteForm.get('tipoIdentificacion')?.touched" class="error-text">
+          {{ getErrorMessage('tipoIdentificacion') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="numeroIdentificacion">Número Identificación:</label>
+        <input
+          type="text"
+          id="numeroIdentificacion"
+          formControlName="numeroIdentificacion"
+          placeholder="1234567890"
+          class="form-control"
+          [class.error]="clienteForm.get('numeroIdentificacion')?.invalid && clienteForm.get('numeroIdentificacion')?.touched">
+        <div *ngIf="clienteForm.get('numeroIdentificacion')?.invalid && clienteForm.get('numeroIdentificacion')?.touched" class="error-text">
+          {{ getErrorMessage('numeroIdentificacion') }}
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="direccion">Dirección:</label>
+      <textarea
+        id="direccion"
+        formControlName="direccion"
+        placeholder="Dirección completa"
+        class="form-control"
+        rows="3"
+        [class.error]="clienteForm.get('direccion')?.invalid && clienteForm.get('direccion')?.touched"></textarea>
+      <div *ngIf="clienteForm.get('direccion')?.invalid && clienteForm.get('direccion')?.touched" class="error-text">
+        {{ getErrorMessage('direccion') }}
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="telefono">Teléfono:</label>
+        <input
+          type="text"
+          id="telefono"
+          formControlName="telefono"
+          placeholder="0987654321"
+          class="form-control"
+          [class.error]="clienteForm.get('telefono')?.invalid && clienteForm.get('telefono')?.touched">
+        <div *ngIf="clienteForm.get('telefono')?.invalid && clienteForm.get('telefono')?.touched" class="error-text">
+          {{ getErrorMessage('telefono') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="contrasena">Contraseña:</label>
+        <input
+          type="password"
+          id="contrasena"
+          formControlName="contrasena"
+          placeholder="Contraseña"
+          class="form-control"
+          [class.error]="clienteForm.get('contrasena')?.invalid && clienteForm.get('contrasena')?.touched">
+        <div *ngIf="clienteForm.get('contrasena')?.invalid && clienteForm.get('contrasena')?.touched" class="error-text">
+          {{ getErrorMessage('contrasena') }}
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="checkbox-label">
+        <input type="checkbox" formControlName="estado"> Estado Activo
+      </label>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary" [disabled]="clienteForm.invalid">
+        {{ isEditMode ? 'Actualizar' : 'Crear' }}
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
+    </div>
+  </form>
+
+  <div *ngIf="loading" class="loading">
+    {{ isEditMode ? 'Cargando cliente...' : 'Guardando...' }}
+  </div>
+</div>

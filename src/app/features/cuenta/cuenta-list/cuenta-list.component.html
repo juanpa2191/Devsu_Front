@@ -1,0 +1,54 @@
+<div class="cuenta-list-container">
+  <h2>Lista de Cuentas</h2>
+
+  <div class="actions">
+    <button class="btn btn-primary" (click)="onAdd()">Agregar Cuenta</button>
+  </div>
+
+  <div class="search-container">
+    <input
+      type="text"
+      placeholder="Buscar por número de cuenta o nombre del cliente..."
+      (input)="onSearch($event)"
+      class="search-input">
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    Cargando...
+  </div>
+
+  <div *ngIf="!loading && filteredCuentas.length === 0" class="no-data">
+    No se encontraron cuentas.
+  </div>
+
+  <table *ngIf="!loading && filteredCuentas.length > 0" class="cuenta-table">
+    <thead>
+      <tr>
+        <th>Número Cuenta</th>
+        <th>Tipo</th>
+        <th>Saldo Inicial</th>
+        <th>Cliente</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let cuenta of filteredCuentas">
+        <td>{{ cuenta.numeroCuenta }}</td>
+        <td>{{ getTipoCuentaLabel(cuenta.tipoCuenta) }}</td>
+        <td>${{ cuenta.saldoInicial }}</td>
+        <td>{{ cuenta.cliente?.nombre }}</td>
+        <td>{{ cuenta.estado ? 'Activa' : 'Inactiva' }}</td>
+        <td>
+          <button class="btn btn-secondary" (click)="onView(cuenta)">Ver</button>
+          <button class="btn btn-warning" (click)="onEdit(cuenta)">Editar</button>
+          <button class="btn btn-danger" (click)="onDelete(cuenta)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

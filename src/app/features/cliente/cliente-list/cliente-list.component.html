@@ -1,0 +1,58 @@
+<div class="cliente-list-container">
+  <h2>Lista de Clientes</h2>
+
+  <div class="actions">
+    <button class="btn btn-primary" (click)="onAdd()">Agregar Cliente</button>
+  </div>
+
+  <div class="search-container">
+    <input
+      type="text"
+      placeholder="Buscar por nombre, identificación o cliente ID..."
+      (input)="onSearch($event)"
+      class="search-input">
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    Cargando...
+  </div>
+
+  <div *ngIf="!loading && filteredClientes.length === 0" class="no-data">
+    No se encontraron clientes.
+  </div>
+
+  <table *ngIf="!loading && filteredClientes.length > 0" class="cliente-table">
+    <thead>
+      <tr>
+        <th>ID Cliente</th>
+        <th>Nombre</th>
+        <th>Género</th>
+        <th>Edad</th>
+        <th>Identificación</th>
+        <th>Teléfono</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let cliente of filteredClientes">
+        <td>{{ cliente.clienteId }}</td>
+        <td>{{ cliente.nombre }}</td>
+        <td>{{ cliente.genero === 1 ? 'Masculino' : 'Femenino' }}</td>
+        <td>{{ cliente.edad }}</td>
+        <td>{{ cliente.numeroIdentificacion }}</td>
+        <td>{{ cliente.telefono }}</td>
+        <td>{{ cliente.estado ? 'Activo' : 'Inactivo' }}</td>
+        <td>
+          <button class="btn btn-secondary" (click)="onView(cliente)">Ver</button>
+          <button class="btn btn-warning" (click)="onEdit(cliente)">Editar</button>
+          <button class="btn btn-danger" (click)="onDelete(cliente)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

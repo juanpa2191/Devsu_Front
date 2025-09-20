@@ -1,0 +1,56 @@
+<div class="movimiento-list-container">
+  <h2>Lista de Movimientos</h2>
+
+  <div class="actions">
+    <button class="btn btn-primary" (click)="onAdd()">Agregar Movimiento</button>
+  </div>
+
+  <div class="search-container">
+    <input
+      type="text"
+      placeholder="Buscar por número de cuenta o fecha..."
+      (input)="onSearch($event)"
+      class="search-input">
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    Cargando...
+  </div>
+
+  <div *ngIf="!loading && filteredMovimientos.length === 0" class="no-data">
+    No se encontraron movimientos.
+  </div>
+
+  <table *ngIf="!loading && filteredMovimientos.length > 0" class="movimiento-table">
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Tipo</th>
+        <th>Valor</th>
+        <th>Saldo</th>
+        <th>Número Cuenta</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let movimiento of filteredMovimientos">
+        <td>{{ movimiento.fecha | date:'dd/MM/yyyy' }}</td>
+        <td>{{ getTipoMovimientoLabel(movimiento.tipoMovimiento) }}</td>
+        <td class="valor" [class.debito]="movimiento.tipoMovimiento === 2">
+          {{ movimiento.tipoMovimiento === 1 ? '+' : '-' }}${{ movimiento.valor }}
+        </td>
+        <td>${{ movimiento.saldo }}</td>
+        <td>{{ movimiento.cuenta?.numeroCuenta }}</td>
+        <td>
+          <button class="btn btn-secondary" (click)="onView(movimiento)">Ver</button>
+          <button class="btn btn-warning" (click)="onEdit(movimiento)">Editar</button>
+          <button class="btn btn-danger" (click)="onDelete(movimiento)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

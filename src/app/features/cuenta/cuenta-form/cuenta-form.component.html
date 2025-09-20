@@ -1,0 +1,91 @@
+<div class="cuenta-form-container">
+  <h2>{{ isEditMode ? 'Editar Cuenta' : 'Crear Cuenta' }}</h2>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="successMessage" class="success-message">
+    {{ successMessage }}
+  </div>
+
+  <form [formGroup]="cuentaForm" (ngSubmit)="onSubmit()" *ngIf="!loading">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="numeroCuenta">Número de Cuenta:</label>
+        <input
+          type="text"
+          id="numeroCuenta"
+          formControlName="numeroCuenta"
+          placeholder="123456"
+          class="form-control"
+          [class.error]="cuentaForm.get('numeroCuenta')?.invalid && cuentaForm.get('numeroCuenta')?.touched">
+        <div *ngIf="cuentaForm.get('numeroCuenta')?.invalid && cuentaForm.get('numeroCuenta')?.touched" class="error-text">
+          {{ getErrorMessage('numeroCuenta') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="tipoCuenta">Tipo de Cuenta:</label>
+        <select
+          id="tipoCuenta"
+          formControlName="tipoCuenta"
+          class="form-control"
+          [class.error]="cuentaForm.get('tipoCuenta')?.invalid && cuentaForm.get('tipoCuenta')?.touched">
+          <option *ngFor="let tipo of tiposCuenta" [value]="tipo.value">{{ tipo.label }}</option>
+        </select>
+        <div *ngIf="cuentaForm.get('tipoCuenta')?.invalid && cuentaForm.get('tipoCuenta')?.touched" class="error-text">
+          {{ getErrorMessage('tipoCuenta') }}
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="saldoInicial">Saldo Inicial:</label>
+        <input
+          type="number"
+          id="saldoInicial"
+          formControlName="saldoInicial"
+          placeholder="0.00"
+          class="form-control"
+          [class.error]="cuentaForm.get('saldoInicial')?.invalid && cuentaForm.get('saldoInicial')?.touched">
+        <div *ngIf="cuentaForm.get('saldoInicial')?.invalid && cuentaForm.get('saldoInicial')?.touched" class="error-text">
+          {{ getErrorMessage('saldoInicial') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="clienteId">Cliente:</label>
+        <select
+          id="clienteId"
+          formControlName="clienteId"
+          class="form-control"
+          [class.error]="cuentaForm.get('clienteId')?.invalid && cuentaForm.get('clienteId')?.touched">
+          <option value="">Seleccione un cliente</option>
+          <option *ngFor="let cliente of clientes" [value]="cliente.id">{{ cliente.nombre }}</option>
+        </select>
+        <div *ngIf="cuentaForm.get('clienteId')?.invalid && cuentaForm.get('clienteId')?.touched" class="error-text">
+          {{ getErrorMessage('clienteId') }}
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="checkbox-label">
+        <input type="checkbox" formControlName="estado"> Estado Activa
+      </label>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary" [disabled]="cuentaForm.invalid">
+        {{ isEditMode ? 'Actualizar' : 'Crear' }}
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
+    </div>
+  </form>
+
+  <div *ngIf="loading" class="loading">
+    {{ isEditMode ? 'Cargando cuenta...' : 'Guardando...' }}
+  </div>
+</div>

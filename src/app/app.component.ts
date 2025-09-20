@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -9,4 +9,10 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'sistema-bancario-kilocode';
+
+  constructor(private router: Router) {}
+
+  navigateTo(route: string) {
+    this.router.navigate([route]);
+  }
 }

@@ -2,10 +2,9 @@
   <header class="app-header">
     <h1>Sistema Bancario</h1>
     <nav class="main-nav">
-      <a routerLink="/clientes" routerLinkActive="active">Clientes</a>
-      <a routerLink="/cuentas" routerLinkActive="active">Cuentas</a>
-      <a routerLink="/movimientos" routerLinkActive="active">Movimientos</a>
-      <a routerLink="/test" routerLinkActive="active">Test</a>
+      <a (click)="navigateTo('/clientes'); $event.preventDefault()">Clientes</a>
+      <a (click)="navigateTo('/cuentas'); $event.preventDefault()">Cuentas</a>
+      <a (click)="navigateTo('/movimientos'); $event.preventDefault()">Movimientos</a>
     </nav>
   </header>
 
